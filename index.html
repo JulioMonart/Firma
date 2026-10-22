@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificación de Firma Digital</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(46, 160, 67, 0.15);
+      color: #3fb950;
+      border: 1px solid rgba(63, 185, 80, 0.3);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #3fb950;
+      border-radius: 50%;
+    }
+    .signature-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #8b949e;
+      margin-bottom: 4px;
+    }
+    .signature-name {
+      font-size: 1.2rem;
+      color: #f0f6fc;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+    .divider {
+      border: 0;
+      height: 1px;
+      background: #30363d;
+      margin: 16px 0;
+    }
+    .info-group {
+      margin-bottom: 12px;
+    }
+    .info-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #8b949e;
+      margin-bottom: 2px;
+    }
+    .info-value {
+      font-size: 0.9rem;
+      color: #c9d1d9;
+      font-weight: 500;
+      font-family: monospace; /* Estilo técnico para la fecha */
+    }
+    .footer-text {
+      font-size: 0.75rem;
+      color: #484f58;
+      text-align: center;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="status-badge">
+      <span class="status-dot"></span> Autenticidad Verificada
+    </div>
+    
+    <div class="signature-title">Firmado por:</div>
+    <div class="signature-name">JULIO CÉSAR MONAR COLOMA</div>
+
+    <div class="info-group">
+      <div class="info-label">Fecha y Hora (UTC)</div>
+      <!-- Aquí se inyectará la fecha exacta automáticamente -->
+      <div class="info-value" id="utc-timestamp">Cargando fecha...</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="info-group">
+      <div class="info-label">Institución</div>
+      <div class="info-value" style="font-family: inherit;">Unidad Educativa "Vicente Rocafuerte"</div>
+    </div>
+
+    <div class="info-group">
+      <div class="info-label">Cargo / Área</div>
+      <div class="info-value" style="font-family: inherit;">Docente de Lengua Extranjera</div>
+    </div>
+
+    <div class="footer-text">
+      Token de Validación Docente • Repositorio en Línea
+    </div>
+  </div>
+
+  <script>
+    // Script para generar la fecha exacta en formato UTC con milisegundos y zona horaria Z
+    const now = new Date();
+    
+    // Extraer componentes UTC
+    const year = now.getUTCFullYear();
+    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(now.getUTCDate()).padStart(2, '0');
+    const hours = String(now.getUTCHours()).padStart(2, '0');
+    const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+    
+    // Obtener milisegundos y asegurar formato de 3 dígitos (microsegundos simulados con ceros o milisegundos reales)
+    const milliseconds = String(now.getUTCMilliseconds()).padStart(3, '0') + "000"; 
+
+    // Construir la cadena exacta solicitada (Ej: 2026-10-22T23:45:12.131000Z)
+    const formatoUTC = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+
+    // Mostrarlo en la página
+    document.getElementById('utc-timestamp').textContent = formatoUTC;
+  </script>
+
+</body>
+</html>
