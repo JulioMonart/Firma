@@ -116,25 +116,30 @@
   </div>
 
   <script>
-    // Script para generar la fecha exacta en formato UTC con milisegundos y zona horaria Z
     const now = new Date();
     
-    // Extraer componentes UTC
-    const year = now.getUTCFullYear();
-    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
-    const day = String(now.getUTCDate()).padStart(2, '0');
-    const hours = String(now.getUTCHours()).padStart(2, '0');
-    const minutes = String(now.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
     
-    // Obtener milisegundos y asegurar formato de 3 dígitos (microsegundos simulados con ceros o milisegundos reales)
-    const milliseconds = String(now.getUTCMilliseconds()).padStart(3, '0') + "000"; 
+    // Milisegundos con ceros adicionales para mantener el formato estético
+    const milliseconds = String(now.getMilliseconds()).padStart(3, '0') + "000"; 
 
-    // Construir la cadena exacta solicitada (Ej: 2026-10-22T23:45:12.131000Z)
-    const formatoUTC = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+    // Obtener la diferencia de zona horaria local (ej: -05:00 para Ecuador)
+    const timezoneOffsetMinutes = -now.getTimezoneOffset();
+    const offsetSign = timezoneOffsetMinutes >= 0 ? '+' : '-';
+    const absOffsetMinutes = Math.abs(timezoneOffsetMinutes);
+    const offsetHours = String(Math.floor(absOffsetMinutes / 60)).padStart(2, '0');
+    const offsetMinutes = String(absOffsetMinutes % 60).padStart(2, '0');
+
+    // Construir la cadena con la hora local y su respectiva zona horaria
+    const formatoLocal = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${offsetSign}${offsetHours}:${offsetMinutes}`;
 
     // Mostrarlo en la página
-    document.getElementById('utc-timestamp').textContent = formatoUTC;
+    document.getElementById('utc-timestamp').textContent = formatoLocal;
   </script>
 
 </body>
